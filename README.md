@@ -1,4 +1,3 @@
-# gulp-tag-include
 
 ## Features
 
@@ -37,7 +36,7 @@ gulp.task('build.html', function(){
     <include src="assets/layout/footer"></include>
 
 ```
-## 也支持直接将变量作为标签属性的形式：
+# 也支持直接将变量作为标签属性的形式：
 ```html
 
     <!-- 引入头部（标签上属性） -->
@@ -50,7 +49,7 @@ gulp.task('build.html', function(){
 
 ```
 
-## header.html
+# header.html
 ```html
 
     <html>
@@ -64,13 +63,13 @@ gulp.task('build.html', function(){
 
 ```
 
-## footer.html
+# footer.html
 ```html
     </body>
     </html>
 ```
 
-## output:
+# output:
 ```html
 
     <html>
