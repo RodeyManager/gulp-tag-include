@@ -34,9 +34,9 @@ gulp.task('build.html', function(){
 
     <!-- 引入尾部 -->
     <include src="assets/layout/footer"></include>
-
+```
     + 也支持直接将变量作为标签属性的形式：
-
+```html
     <!-- 引入头部（标签上属性） -->
     <include src="assets/layout/header.html" title="gulp-html-includer" css="assets/css/a.css" charset="utf-8"></include>
 
