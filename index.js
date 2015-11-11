@@ -9,7 +9,7 @@ var fs          = require('fs'),
     PluginError = require('gulp-util').PluginError,
     Tool        = require('./lib/tools');
 
-var PLUGIN_NAME = 'gulp-html-includer';
+var PLUGIN_NAME = 'gulp-tag-include';
 
 //正则匹配
 var tagName         = 'include',
