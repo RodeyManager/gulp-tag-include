@@ -1,5 +1,5 @@
 {
-  "name": "gulp-html-includer",
+  "name": "gulp-tag-include",
   "version": "1.0.0",
   "description": "html页面之间的相互引用",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RodeyManager/gulp-html-includer.git"
+    "url": "git+https://github.com/RodeyManager/gulp-tag-include.git"
   },
   "keywords": [
     "gulp",
@@ -22,9 +22,9 @@
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/RodeyManager/gulp-html-includer/issues"
+    "url": "https://github.com/RodeyManager/gulp-tag-include/issues"
   },
-  "homepage": "https://github.com/RodeyManager/gulp-html-includer#readme",
+  "homepage": "https://github.com/RodeyManager/gulp-tag-include#readme",
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-watch": "^4.3.5",

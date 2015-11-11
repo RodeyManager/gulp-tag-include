@@ -1,16 +1,4 @@
-# gulp-html-includer
-
-[![NPM version][npm-image]][npm-url]
-[![Downloads][downloads-image]][downloads-url]
-![cise](http://cise.alibaba-inc.com/task/69703/status.svg)
-
-[npm-image]: https://img.shields.io/npm/v/gulp-html-includer.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/gulp-html-includer
-[downloads-image]: http://img.shields.io/npm/dm/gulp-html-includer.svg?style=flat-square
-[downloads-url]: https://npmjs.org/package/gulp-html-includer
-
-combo and merge `css` and `js` to html. no matter the file is online or not.
-对页面中引入的css文件和js文件进行合并并压缩到新文件
+# gulp-tag-include
 
 ## Features
 
@@ -21,7 +9,7 @@ combo and merge `css` and `js` to html. no matter the file is online or not.
 
 ```javascript
 var gulp = require('gulp');
-var htmlIncluder = require('gulp-html-includer');
+var htmlIncluder = require('gulp-tag-include');
 gulp.task('build.js', function(){
 
 gulp.task('build.html', function(){
@@ -69,7 +57,7 @@ gulp.task('build.html', function(){
     <head lang="en">
         <title>{{ title }}</title>
         <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="{{ css }}" charset="{{ charset }}"/>
     </head>
     <body>
@@ -89,7 +77,7 @@ gulp.task('build.html', function(){
     <head lang="en">
         <title>gulp-html-includer</title>
         <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="assets/css/a.css" charset="utf-8"/>
     </head>
     <body>
