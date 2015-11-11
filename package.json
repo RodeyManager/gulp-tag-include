@@ -1,0 +1,38 @@
+{
+  "name": "gulp-html-includer",
+  "version": "1.0.0",
+  "description": "html页面之间的相互引用",
+  "main": "index.js",
+  "scripts": {
+    "test": "htmlIncluder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RodeyManager/gulp-html-includer.git"
+  },
+  "keywords": [
+    "gulp",
+    "html",
+    "include"
+  ],
+  "author": "Rodey",
+  "contributors": {
+    "name": "Rodey",
+    "email": "rodeyluo@gmail.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RodeyManager/gulp-html-includer/issues"
+  },
+  "homepage": "https://github.com/RodeyManager/gulp-html-includer#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-watch": "^4.3.5",
+    "mocha": "^2.3.3",
+    "should": "^7.1.1"
+  },
+  "dependencies": {
+    "gulp-util": "^3.0.7",
+    "through2": "^2.0.0"
+  }
+}

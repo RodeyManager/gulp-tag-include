@@ -1,0 +1,19 @@
+<!-- 引入头部（标签上属性） -->
+<include src="assets/layout/header.html" title="gulp-html-includer" css="assets/css/a.css" charset="utf-8"></include>
+
+<div class="app product-app details" id="app">
+
+    <div class="content">
+        <p id="content">
+            html页面中包含其他页面文件
+        </p>
+    </div>
+
+</div>
+
+<!-- 引入尾部（标签内属性） -->
+<include src="assets/layout/footer.html">
+    @view   = module/view/verify.js,
+    @module = module/verify,
+    @async  = async="true",
+</include>
