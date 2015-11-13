@@ -54,6 +54,8 @@ var replaceCallback = function(file, options){
          */
         if(options.tagContent === true)
             htmlContent = Tool.extractTagContent(htmlContent, includerRegx, $1);
+        //去除空变量
+        htmlContent = Tool.cleanEmptyVars(htmlContent);
 
         return Tool.rtrim(htmlContent);
 
