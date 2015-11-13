@@ -106,5 +106,10 @@ gulp.task('build.html', function(){
 
 ```
 
+![Alt text](example/v1.jpg)
+![Alt text](example/v2.jpg)
+![Alt text](example/v3.jpg)
+![Alt text](example/v4.jpg)
+
 #License
 ISC
