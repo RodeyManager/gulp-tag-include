@@ -17,6 +17,45 @@ var tagName         = 'include',
     srcRegx         = new RegExp('\\s*src="([\\s\\S]*?)"', 'gi'),
     attrReg         = new RegExp('\\s+(\\S+)="([\\s\\S]*?)"', 'gi');
 
+
+var replaceTag = function(file, $1, options){
+    var ms = srcRegx.exec($1),
+        src = ms[1] || '';
+    srcRegx.lastIndex = 0;
+    src = path.normalize(path.dirname(file.path) + path.sep + src);
+    var htmlContent = Tool.getFileContent(src);
+
+    //=========标签内容属性替换
+    /**
+     * exp: <includ src="assets/layout/header.html" title="html页面已引入" css="index.css"></includ>
+     */
+    if(options.tagAttr === true)
+        htmlContent = Tool.extractTagAttr(htmlContent, $1, attrReg);
+
+    //=========内容属性替换
+    /**
+     * <includ src="assets/layout/header.html">
+     *     @title   = html页面已引入
+     *     @css     = index.css
+     * </includ>
+     */
+    if(options.tagContent === true)
+        htmlContent = Tool.extractTagContent(htmlContent, includerRegx, $1);
+    //去除空变量
+    htmlContent = Tool.cleanEmptyVars(htmlContent);
+
+    /*if(htmlContent.search(includerRegx) !== -1){
+        htmlContent = htmlContent.replace(includerRegx, function($2){
+            srcRegx.lastIndex = 0;
+            var s = srcRegx.exec($2)[1];
+            s = path.normalize(path.dirname(src) + path.sep + s);
+            return  replaceCallback(s, options);
+        });
+    }*/
+
+    return Tool.rtrim(htmlContent);
+};
+
 /**
  * 处理文件内容
  * @param file      要处理的文件
@@ -25,39 +64,19 @@ var tagName         = 'include',
  */
 var replaceCallback = function(file, options){
 
-    var content = Tool.getFileContent(file);
+    var content = file.contents.toString('utf-8'),
+        filePath = file.path;
+    if(typeof content === 'undefined'){
+        content = Tool.getFileContent(filePath);
+    }
 
     if(options.tagName){
         includerRegx    = new RegExp('<' + options.tagName + '\\s+([\\s\\S]*?)>([\\s\\S]*?)<\\/' + options.tagName + '>', 'gi');
     }
 
     content = content.replace(includerRegx, function($1){
-        var ms = srcRegx.exec($1),
-            src = ms[1] || '';
-        srcRegx.lastIndex = 0;
-        src = path.normalize(path.dirname(file) + path.sep + src);
-        var htmlContent = Tool.getFileContent(src);
 
-        //=========标签内容属性替换
-        /**
-         * exp: <includ src="assets/layout/header.html" title="html页面已引入" css="index.css"></includ>
-         */
-        if(options.tagAttr === true)
-            htmlContent = Tool.extractTagAttr(htmlContent, $1, attrReg);
-
-        //=========内容属性替换
-        /**
-         * <includ src="assets/layout/header.html">
-         *     @title   = html页面已引入
-         *     @css     = index.css
-         * </includ>
-         */
-        if(options.tagContent === true)
-            htmlContent = Tool.extractTagContent(htmlContent, includerRegx, $1);
-        //去除空变量
-        htmlContent = Tool.cleanEmptyVars(htmlContent);
-
-        return Tool.rtrim(htmlContent);
+        return replaceTag(file, $1, options);
 
     });
 
@@ -75,7 +94,7 @@ var getContent = function(file, options){
     opts['tagAttr'] = true;
     opts['tagContent'] = true;
     //对内容进行处理
-    var content = replaceCallback(file.path, opts);
+    var content = replaceCallback(file, opts);
     return content;
 };
 

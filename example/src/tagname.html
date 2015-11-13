@@ -1,5 +1,5 @@
 <!-- 引入头部（标签上属性） -->
-<require_once src="assets/layout/header.html" title="gulp-html-includer" css="assets/css/a.css" charset="utf-8"></require_once>
+<require src="assets/layout/header.html" title="gulp-html-includer" css="assets/css/a.css" charset="utf-8"></require>
 
     <div class="app product-app details" id="app">
 
@@ -12,8 +12,8 @@
     </div>
 
 <!-- 引入尾部（标签内属性） -->
-<require_once src="assets/layout/footer.html">
+<require src="assets/layout/footer.html">
     @view   = module/view/verify.js,
     @module = module/verify,
     @async  = async="true",
-</require_once>
+</require>

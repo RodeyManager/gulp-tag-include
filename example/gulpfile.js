@@ -17,7 +17,9 @@ gulp.task('build.html', function(){
 gulp.task('build.tagname.html', function(){
 
     gulp.src('src/tagname.html')
-        .pipe(htmlIncluder({ tagName: 'require_once' }))
+        .pipe(htmlIncluder({
+            tagName: 'require'  //默认 include
+        }))
         .pipe(gulp.dest('dist'));
 
 });
