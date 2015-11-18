@@ -3,13 +3,13 @@
 
 + HTML页面中引入其他页面
 + 引入时可带参数
++ 递归引入
 
 ## Usage
 
 ```javascript
 var gulp = require('gulp');
 var htmlIncluder = require('gulp-tag-include');
-gulp.task('build.js', function(){
 
 gulp.task('build.html', function(){
 
