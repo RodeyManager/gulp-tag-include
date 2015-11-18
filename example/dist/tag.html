@@ -1,5 +1,4 @@
-<!-- 引入头部（标签上属性） -->
-<!DOCTYPE html>
+<!-- 引入头部（标签上属性） --><!DOCTYPE html>
 <html>
 <head lang="en">
     <title>gulp-html-includer</title>
@@ -13,6 +12,7 @@
 </head>
 <body>
 
+
 <div class="app product-app details" id="app">
 
     <div class="content">
@@ -22,9 +22,15 @@
     </div>
 
 </div>
+<p id="tag-content">tag content</p><!--baidu statistics-->
+<script id="baidu">
+    var _hmt = _hmt || [];(function(){var hm = document.createElement("script");hm.src = "//hm.baidu.com/hm.js?a9af881a8cc00c1fd4afaa8e54c0da37";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
 
-<!-- 引入尾部（标签内属性） -->
-    <script src="assets/js/a.js" view="module/view/verify.js" module="module/verify" async="true"></script>
+
+
+<!-- 引入尾部 -->
+    <script src="assets/js/a.js" view="module/view/verify.js" module="module/verify" async></script>
 
     <!--baidu statistics-->
     <!--baidu statistics-->
@@ -34,3 +40,4 @@
 
     </body>
 </html>
+

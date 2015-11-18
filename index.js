@@ -14,15 +14,23 @@ var PLUGIN_NAME = 'gulp-tag-include';
 //正则匹配
 var tagName         = 'include',
     includerRegx    = new RegExp('<' + tagName + '\\s+([\\s\\S]*?)>([\\s\\S]*?)<\\/' + tagName + '>', 'gi'),
+    includer2Regx    = new RegExp('\\s*@' + tagName + '\\s*\\(\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"],\\s*\\{*([\\s\\S]*?)\\}*\\s*\\)', 'gi'),
     srcRegx         = new RegExp('\\s*src="([\\s\\S]*?)"', 'gi'),
-    attrReg         = new RegExp('\\s+(\\S+)="([\\s\\S]*?)"', 'gi');
+    attrReg         = new RegExp('\\s+(\\S+)="([\\s\\S]*?)"', 'gi'),
+    attr2Reg         = new RegExp('\\s*([\\s\\S]*?)\\s*:\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"],?', 'gi');
 
-
-var replaceTag = function(file, $1, options){
+/**
+ * html标签形式引入
+ * @param filePath      当前页面地址
+ * @param $1            匹配到的页面内容
+ * @param options       可选参数
+ * @returns {*}
+ */
+var replaceTag = function(filePath, $1, options){
     var ms = srcRegx.exec($1),
         src = ms[1] || '';
     srcRegx.lastIndex = 0;
-    src = path.normalize(path.dirname(file.path) + path.sep + src);
+    src = path.normalize(path.dirname(filePath) + path.sep + src);
     var htmlContent = Tool.getFileContent(src);
 
     //=========标签内容属性替换
@@ -44,16 +52,36 @@ var replaceTag = function(file, $1, options){
     //去除空变量
     htmlContent = Tool.cleanEmptyVars(htmlContent);
 
-    /*if(htmlContent.search(includerRegx) !== -1){
-        htmlContent = htmlContent.replace(includerRegx, function($2){
-            srcRegx.lastIndex = 0;
-            var s = srcRegx.exec($2)[1];
-            s = path.normalize(path.dirname(src) + path.sep + s);
-            return  replaceCallback(s, options);
-        });
-    }*/
+    //递归遍历
+    if(htmlContent.search(includerRegx) !== -1 || htmlContent.search(includer2Regx) !== -1){
+        htmlContent = replaceCallback(src, htmlContent, options);
+    }
 
     return Tool.rtrim(htmlContent);
+};
+
+/**
+ * 模板方法形式引入
+ * @param filePath      当前页面地址
+ * @param content       引入的模板内容
+ * @param src           引入的模板地址，方便递归
+ * @param args          引入的参数列表
+ * @param options       可选参数
+ * @returns {*}
+ */
+var replaceMethodTag = function(filePath, src, args, options){
+    var src = path.normalize(path.dirname(filePath) + path.sep + src);
+    var htmlContent = Tool.getFileContent(src),
+        args = args;
+    //属性参数替换
+    htmlContent = Tool.extractTagAttr(htmlContent, args, attr2Reg);
+    //递归遍历替换
+    if(htmlContent.search(includer2Regx) !== -1 || htmlContent.search(includerRegx) !== -1){
+        htmlContent = replaceCallback(src, htmlContent, options);
+    }
+
+    return htmlContent;
+
 };
 
 /**
@@ -62,26 +90,34 @@ var replaceTag = function(file, $1, options){
  * @param options   可选参数
  * @returns {*}
  */
-var replaceCallback = function(file, options){
+var replaceCallback = function(filePath, content, options){
 
-    var content = file.contents.toString('utf-8'),
-        filePath = file.path;
-    if(typeof content === 'undefined'){
-        content = Tool.getFileContent(filePath);
-    }
-
-    if(options.tagName){
-        includerRegx    = new RegExp('<' + options.tagName + '\\s+([\\s\\S]*?)>([\\s\\S]*?)<\\/' + options.tagName + '>', 'gi');
-    }
-
-    content = content.replace(includerRegx, function($1){
-
-        return replaceTag(file, $1, options);
-
+    var content = content
+    /**
+     * html标签形式 <include src="template src" [!args]></include>
+     */
+        .replace(includerRegx, function($1){
+            return replaceTag(filePath, $1, options);
+    })
+    /**
+     * 以模板方法的形式  @include('template src', { [!args] })
+     */
+        .replace(includer2Regx, function($1, src, args){
+            return replaceMethodTag(filePath, src, args, options);
     });
 
     return content;
 
+};
+
+/**
+ * 重置匹配正则
+ * @param options
+ */
+var resetIncludeRegx = function(options){
+    var tagName = options.tagName;
+    includerRegx    = new RegExp('<' + tagName + '\\s+([\\s\\S]*?)>([\\s\\S]*?)<\\/' + tagName + '>', 'gi');
+    includer2Regx    = new RegExp('\\s*@' + tagName + '\\s*\\(\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"],\\s*\\{*([\\s\\S]*?)\\}*\\s*\\)', 'gi');
 };
 
 //获取文件内容
@@ -93,8 +129,17 @@ var getContent = function(file, options){
     var opts = options || { };
     opts['tagAttr'] = true;
     opts['tagContent'] = true;
+    opts['tagName'] = opts.tagName || 'include';
+    resetIncludeRegx(opts);
     //对内容进行处理
-    var content = replaceCallback(file, opts);
+
+    var content = file.contents.toString('utf-8'),
+        filePath = file.path;
+    if(typeof content === 'undefined'){
+        content = Tool.getFileContent(filePath);
+    }
+
+    var content = replaceCallback(filePath, content, opts);
     return content;
 };
 

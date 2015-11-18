@@ -47,6 +47,14 @@ gulp.task('build.html', function(){
 
 ```
 
++ 同时支持后台模版式：
+```html
+
+    <!-- 引入头部（标签上属性） -->
+    @include("assets/layout/header.html", {title: "gulp-html-includer", css: "assets/css/a.css", charset: "utf-8"} )
+
+```
+
 # header.html
 ```html
 

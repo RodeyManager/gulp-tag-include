@@ -14,6 +14,14 @@ gulp.task('build.html', function(){
 
 });
 
+gulp.task('build.tag.html', function(){
+
+    gulp.src('src/tag.html')
+        .pipe(htmlIncluder())
+        .pipe(gulp.dest('dist'));
+
+});
+
 gulp.task('build.tagname.html', function(){
 
     gulp.src('src/tagname.html')
@@ -26,10 +34,10 @@ gulp.task('build.tagname.html', function(){
 
 gulp.task('watch.html', function(){
 
-    gulp.watch('src/**/*.html', ['build.html', 'build.tagname.html']);
+    gulp.watch('src/**/*.html', ['build.html', 'build.tag.html', 'build.tagname.html']);
 
 });
 
-gulp.task('default', ['build.html', 'build.tagname.html', 'watch.html']);
+gulp.task('default', ['build.html', 'build.tag.html', 'build.tagname.html', 'watch.html']);
 
 
