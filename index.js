@@ -15,8 +15,8 @@ var PLUGIN_NAME = 'gulp-tag-include';
 var tagName         = 'include',
     includerRegx    = new RegExp('<' + tagName + '\\s+([\\s\\S]*?)>([\\s\\S]*?)<\\/' + tagName + '>', 'gi'),
     includer2Regx    = new RegExp('\\s*@' + tagName + '\\s*\\(\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"],\\s*\\{*([\\s\\S]*?)\\}*\\s*\\)', 'gi'),
-    srcRegx         = new RegExp('\\s*src="([\\s\\S]*?)"', 'gi'),
-    attrReg         = new RegExp('\\s+(\\S+)="([\\s\\S]*?)"', 'gi'),
+    srcRegx         = new RegExp('\\s*src\\s*=\\s*[\\\'|"]([\\s\\S]*?)"', 'gi'),
+    attrReg         = new RegExp('\\s+(\\S+)\\s*=\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"]', 'gi'),
     attr2Reg         = new RegExp('\\s*([\\s\\S]*?)\\s*:\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"],?', 'gi');
 
 /**
@@ -31,6 +31,9 @@ var replaceTag = function(filePath, $1, options){
         src = ms[1] || '';
     srcRegx.lastIndex = 0;
     src = path.normalize(path.dirname(filePath) + path.sep + src);
+    if(!fs.existsSync(src)){
+        return $1;
+    }
     var htmlContent = Tool.getFileContent(src);
 
     //=========标签内容属性替换
@@ -71,6 +74,9 @@ var replaceTag = function(filePath, $1, options){
  */
 var replaceMethodTag = function(filePath, src, args, options){
     var src = path.normalize(path.dirname(filePath) + path.sep + src);
+    if(!fs.existsSync(src)){
+        return src;
+    }
     var htmlContent = Tool.getFileContent(src),
         args = args;
     //属性参数替换
