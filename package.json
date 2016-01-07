@@ -1,6 +1,6 @@
 {
   "name": "gulp-tag-include",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "html页面之间的相互引用",
   "main": "index.js",
   "scripts": {

@@ -36,6 +36,15 @@ var replaceTag = function(filePath, $1, options){
     }
     var htmlContent = Tool.getFileContent(src);
 
+    //判断文件类型--add
+    var ext = path.extname(src);
+    if(ext == '.css'){
+        htmlContent = '<style charset="utf-8">' + Tool.miniStyle(htmlContent) + '</style>';
+    }
+    else if(ext == '.js'){
+        htmlContent = '<script charset="utf-8" defer async>' + Tool.miniJs(htmlContent) + '</script>';
+    }
+
     //=========标签内容属性替换
     /**
      * exp: <includ src="assets/layout/header.html" title="html页面已引入" css="index.css"></includ>
