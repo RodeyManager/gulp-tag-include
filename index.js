@@ -7,6 +7,8 @@ var fs          = require('fs'),
     through2    = require('through2'),
     util        = require('util'),
     PluginError = require('gulp-util').PluginError,
+    uglifyjs    = require('uglify-js'),
+    uglifycss   = require('uglifycss'),
     Tool        = require('./lib/tools');
 
 var PLUGIN_NAME = 'gulp-tag-include';
@@ -31,19 +33,24 @@ var replaceTag = function(filePath, $1, options){
         src = ms[1] || '';
     srcRegx.lastIndex = 0;
     src = path.normalize(path.dirname(filePath) + path.sep + src);
+    //console.log(filePath);
+    //console.log(src);
     if(!fs.existsSync(src)){
         return $1;
     }
-    var htmlContent = Tool.getFileContent(src);
 
+    var htmlContent = Tool.getFileContent(src);
     //判断文件类型--add
     var ext = path.extname(src);
     if(ext == '.css'){
-        htmlContent = '<style charset="utf-8">' + Tool.miniStyle(htmlContent) + '</style>';
+        //htmlContent = '<style charset="utf-8">' + Tool.miniStyle(htmlContent) + '</style>';
+        htmlContent = '<style charset="utf-8">' + uglifycss.processString(htmlContent) + '</style>';
     }
     else if(ext == '.js'){
-        htmlContent = '<script charset="utf-8" defer async>' + Tool.miniJs(htmlContent) + '</script>';
+        //htmlContent = '<script charset="utf-8" defer async>' + Tool.miniJs(htmlContent) + '</script>';
+        htmlContent = '<script charset="utf-8">' + uglifyjs.minify(htmlContent, {fromString: true}).code + '</script>';
     }
+
 
     //=========标签内容属性替换
     /**
