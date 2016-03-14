@@ -120,13 +120,13 @@ var replaceCallback = function(filePath, content, options){
      */
         .replace(includerRegx, function($1){
             return replaceTag(filePath, $1, options);
-    })
+        })
     /**
      * 以模板方法的形式  @include('template src', { [!args] })
      */
         .replace(includer2Regx, function($1, src, args){
             return replaceMethodTag(filePath, src, args, options);
-    });
+        });
 
     return content;
 
