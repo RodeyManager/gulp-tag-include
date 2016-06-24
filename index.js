@@ -44,11 +44,11 @@ var replaceTag = function(filePath, $1, options){
     var ext = path.extname(src);
     if(ext == '.css'){
         //htmlContent = '<style charset="utf-8">' + Tool.miniStyle(htmlContent) + '</style>';
-        htmlContent = '<style charset="utf-8">' + uglifycss.processString(htmlContent) + '</style>';
+        htmlContent = '<style type="text/css" charset="utf-8">' + uglifycss.processString(htmlContent) + '</style>';
     }
     else if(ext == '.js'){
         //htmlContent = '<script charset="utf-8" defer async>' + Tool.miniJs(htmlContent) + '</script>';
-        htmlContent = '<script charset="utf-8">' + uglifyjs.minify(htmlContent, {fromString: true}).code + '</script>';
+        htmlContent = '<script type="text/javascript" charset="utf-8" defer>' + uglifyjs.minify(htmlContent, {fromString: true}).code + '</script>';
     }
 
 
