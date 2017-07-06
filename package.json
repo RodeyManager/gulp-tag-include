@@ -18,10 +18,6 @@
   "author": {
     "name": "Rodey"
   },
-  "contributors": {
-    "name": "Rodey",
-    "email": "rodeyluo@gmail.com"
-  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/RodeyManager/gulp-tag-include/issues"
@@ -38,32 +34,5 @@
     "through2": "^2.0.0",
     "uglify-js": "^2.6.1",
     "uglifycss": "0.0.20"
-  },
-  "gitHead": "bd6f36216483a8677556b55fe19d4ce0789bf54c",
-  "_id": "gulp-tag-include@1.1.0",
-  "_shasum": "5f2a68c6501bf3eb501f777da79a51be4d50cf01",
-  "_from": "gulp-tag-include@>=1.0.7 <2.0.0",
-  "_npmVersion": "2.14.12",
-  "_nodeVersion": "4.2.4",
-  "_npmUser": {
-    "name": "rodey",
-    "email": "rodeyluo@gmail.com"
-  },
-  "dist": {
-    "shasum": "5f2a68c6501bf3eb501f777da79a51be4d50cf01",
-    "tarball": "https://registry.npmjs.org/gulp-tag-include/-/gulp-tag-include-1.1.0.tgz"
-  },
-  "maintainers": [
-    {
-      "name": "rodey",
-      "email": "rodeyluo@gmail.com"
-    }
-  ],
-  "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/gulp-tag-include-1.1.0.tgz_1457954504739_0.6307757191825658"
-  },
-  "directories": {},
-  "_resolved": "https://registry.npmjs.org/gulp-tag-include/-/gulp-tag-include-1.1.0.tgz",
-  "readme": "ERROR: No README data found!"
+  }
 }
