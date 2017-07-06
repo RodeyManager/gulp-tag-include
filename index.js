@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const
+var
     fs          = require('fs'),
     path        = require('path'),
     through2    = require('through2'),
@@ -13,10 +13,10 @@ const
     uglifycss   = require('uglifycss'),
     Tool        = require('./lib/tools');
 
-const PLUGIN_NAME = 'gulp-tag-include';
+var PLUGIN_NAME = 'gulp-tag-include';
 
 //正则匹配
-let tagName         = 'include',
+var tagName         = 'include',
     includerRegx    = new RegExp('<' + tagName + '\\s+([\\s\\S]*?)>([\\s\\S]*?)<\\/' + tagName + '>', 'gi'),
     includer2Regx    = new RegExp('\\s*@' + tagName + '\\s*\\(\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"],\\s*\\{*([\\s\\S]*?)\\}*\\s*\\)', 'gi'),
     srcRegx         = new RegExp('\\s*src\\s*=\\s*[\\\'|"]([\\s\\S]*?)"', 'gi'),
@@ -30,8 +30,8 @@ let tagName         = 'include',
  * @param options       可选参数
  * @returns {*}
  */
-let replaceTag = function(filePath, $1, options){
-    let ms = srcRegx.exec($1),
+var replaceTag = function(filePath, $1, options){
+    var ms = srcRegx.exec($1),
         src = ms[1] || '',
         isCompress = options['compress'];
     srcRegx.lastIndex = 0;
@@ -40,9 +40,9 @@ let replaceTag = function(filePath, $1, options){
         return $1;
     }
 
-    let htmlContent = Tool.getFileContent(src);
+    var htmlContent = Tool.getFileContent(src);
     //判断文件类型--add
-    let ext = path.extname(src);
+    var ext = path.extname(src);
     if(ext === '.css'){
         if(isCompress){
             htmlContent = uglifycss.processString(htmlContent);
@@ -93,12 +93,12 @@ let replaceTag = function(filePath, $1, options){
  * @param options       可选参数
  * @returns {*}
  */
-let replaceMethodTag = function(filePath, src, args, options){
-    let src = path.normalize(path.dirname(filePath) + path.sep + src);
+var replaceMethodTag = function(filePath, src, args, options){
+    var src = path.normalize(path.dirname(filePath) + path.sep + src);
     if(!fs.existsSync(src)){
         return src;
     }
-    let htmlContent = Tool.getFileContent(src),
+    var htmlContent = Tool.getFileContent(src),
         args = args;
     //属性参数替换
     htmlContent = Tool.extractTagAttr(htmlContent, args, attr2Reg);
@@ -118,9 +118,9 @@ let replaceMethodTag = function(filePath, src, args, options){
  * @param options   可选参数
  * @returns {*}
  */
-let replaceCallback = function(filePath, content, options){
+var replaceCallback = function(filePath, content, options){
 
-    let content = content
+    var content = content
     /**
      * html标签形式 <include src="template src" [!args]></include>
      */
@@ -142,19 +142,19 @@ let replaceCallback = function(filePath, content, options){
  * 重置匹配正则
  * @param options
  */
-let resetIncludeRegx = function(options){
-    let tagName = options.tagName;
+var resetIncludeRegx = function(options){
+    var tagName = options.tagName;
     includerRegx    = new RegExp('<' + tagName + '\\s+([\\s\\S]*?)>([\\s\\S]*?)<\\/' + tagName + '>', 'gi');
     includer2Regx    = new RegExp('\\s*@' + tagName + '\\s*\\(\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"],\\s*\\{*([\\s\\S]*?)\\}*\\s*\\)', 'gi');
 };
 
 //获取文件内容
-let getContent = function(file, options){
+var getContent = function(file, options){
     //默认参数
     //tagAttr：标签上的属性
     //tagContent： 标签内的属性
     //Learn more as README.md
-    let opts = options || { };
+    var opts = options || { };
     opts['tagAttr'] = true;
     opts['tagContent'] = true;
     opts['tagName'] = opts.tagName || 'include';
@@ -162,7 +162,7 @@ let getContent = function(file, options){
     resetIncludeRegx(opts);
     //对内容进行处理
 
-    let content = file.contents.toString('utf-8'),
+    var content = file.contents.toString('utf-8'),
         filePath = file.path;
     if(typeof content === 'undefined'){
         content = Tool.getFileContent(filePath);
@@ -172,7 +172,7 @@ let getContent = function(file, options){
     return content;
 };
 
-let includer = function(options){
+var includer = function(options){
 
     return through2.obj(function(file, enc, next){
 
@@ -182,7 +182,7 @@ let includer = function(options){
         }
         if (file.isBuffer()) {
             try {
-                let content = getContent(file, options);
+                var content = getContent(file, options);
                 //console.log(content);
                 file.contents = new Buffer(content);
             }
@@ -192,7 +192,6 @@ let includer = function(options){
         }
         this.push(file);
         return next();
-
 
     });
 
