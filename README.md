@@ -120,5 +120,11 @@ gulp.task('build.html', function(){
 ![Alt text](example/v3.jpg)
 ![Alt text](example/v4.jpg)
 
+#options
+    + tagName; (匹配引入标签名)
+    + tagAttr; (处理标签上的属性参数传递，默认 true)
+    + tagContent; (处理标签内容中的参数传递，默认 true)
+    + compress; (是否对css和js进行压缩处理，默认 true)
+
 #License
 ISC

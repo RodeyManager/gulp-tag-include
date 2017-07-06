@@ -1,8 +1,10 @@
 /**
  * Created by Rodey on 2015/11/9.
  */
+'use strict';
 
-var fs          = require('fs'),
+const
+    fs          = require('fs'),
     path        = require('path'),
     through2    = require('through2'),
     util        = require('util'),
@@ -11,10 +13,10 @@ var fs          = require('fs'),
     uglifycss   = require('uglifycss'),
     Tool        = require('./lib/tools');
 
-var PLUGIN_NAME = 'gulp-tag-include';
+const PLUGIN_NAME = 'gulp-tag-include';
 
 //正则匹配
-var tagName         = 'include',
+let tagName         = 'include',
     includerRegx    = new RegExp('<' + tagName + '\\s+([\\s\\S]*?)>([\\s\\S]*?)<\\/' + tagName + '>', 'gi'),
     includer2Regx    = new RegExp('\\s*@' + tagName + '\\s*\\(\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"],\\s*\\{*([\\s\\S]*?)\\}*\\s*\\)', 'gi'),
     srcRegx         = new RegExp('\\s*src\\s*=\\s*[\\\'|"]([\\s\\S]*?)"', 'gi'),
@@ -28,27 +30,30 @@ var tagName         = 'include',
  * @param options       可选参数
  * @returns {*}
  */
-var replaceTag = function(filePath, $1, options){
-    var ms = srcRegx.exec($1),
-        src = ms[1] || '';
+let replaceTag = function(filePath, $1, options){
+    let ms = srcRegx.exec($1),
+        src = ms[1] || '',
+        isCompress = options['compress'];
     srcRegx.lastIndex = 0;
     src = path.normalize(path.dirname(filePath) + path.sep + src);
-    //console.log(filePath);
-    //console.log(src);
     if(!fs.existsSync(src)){
         return $1;
     }
 
-    var htmlContent = Tool.getFileContent(src);
+    let htmlContent = Tool.getFileContent(src);
     //判断文件类型--add
-    var ext = path.extname(src);
-    if(ext == '.css'){
-        //htmlContent = '<style charset="utf-8">' + Tool.miniStyle(htmlContent) + '</style>';
-        htmlContent = '<style type="text/css" charset="utf-8">' + uglifycss.processString(htmlContent) + '</style>';
+    let ext = path.extname(src);
+    if(ext === '.css'){
+        if(isCompress){
+            htmlContent = uglifycss.processString(htmlContent);
+        }
+        htmlContent = '<style type="text/css" charset="utf-8">' + htmlContent + '</style>';
     }
-    else if(ext == '.js'){
-        //htmlContent = '<script charset="utf-8" defer async>' + Tool.miniJs(htmlContent) + '</script>';
-        htmlContent = '<script type="text/javascript" charset="utf-8" defer>' + uglifyjs.minify(htmlContent, {fromString: true}).code + '</script>';
+    else if(ext === '.js'){
+        if(isCompress){
+            htmlContent = uglifyjs.minify(htmlContent, {fromString: true}).code;
+        }
+        htmlContent = '<script type="text/javascript" charset="utf-8" defer>' + htmlContent + '</script>';
     }
 
 
@@ -88,12 +93,12 @@ var replaceTag = function(filePath, $1, options){
  * @param options       可选参数
  * @returns {*}
  */
-var replaceMethodTag = function(filePath, src, args, options){
-    var src = path.normalize(path.dirname(filePath) + path.sep + src);
+let replaceMethodTag = function(filePath, src, args, options){
+    let src = path.normalize(path.dirname(filePath) + path.sep + src);
     if(!fs.existsSync(src)){
         return src;
     }
-    var htmlContent = Tool.getFileContent(src),
+    let htmlContent = Tool.getFileContent(src),
         args = args;
     //属性参数替换
     htmlContent = Tool.extractTagAttr(htmlContent, args, attr2Reg);
@@ -108,13 +113,14 @@ var replaceMethodTag = function(filePath, src, args, options){
 
 /**
  * 处理文件内容
- * @param file      要处理的文件
+ * @param filePath
+ * @param content
  * @param options   可选参数
  * @returns {*}
  */
-var replaceCallback = function(filePath, content, options){
+let replaceCallback = function(filePath, content, options){
 
-    var content = content
+    let content = content
     /**
      * html标签形式 <include src="template src" [!args]></include>
      */
@@ -136,36 +142,37 @@ var replaceCallback = function(filePath, content, options){
  * 重置匹配正则
  * @param options
  */
-var resetIncludeRegx = function(options){
-    var tagName = options.tagName;
+let resetIncludeRegx = function(options){
+    let tagName = options.tagName;
     includerRegx    = new RegExp('<' + tagName + '\\s+([\\s\\S]*?)>([\\s\\S]*?)<\\/' + tagName + '>', 'gi');
     includer2Regx    = new RegExp('\\s*@' + tagName + '\\s*\\(\\s*[\\\'|"]([\\s\\S]*?)[\\\'|"],\\s*\\{*([\\s\\S]*?)\\}*\\s*\\)', 'gi');
 };
 
 //获取文件内容
-var getContent = function(file, options){
+let getContent = function(file, options){
     //默认参数
     //tagAttr：标签上的属性
     //tagContent： 标签内的属性
     //Learn more as README.md
-    var opts = options || { };
+    let opts = options || { };
     opts['tagAttr'] = true;
     opts['tagContent'] = true;
     opts['tagName'] = opts.tagName || 'include';
+    opts['compress'] = opts['compress'] === undefined ? true : opts['compress'];
     resetIncludeRegx(opts);
     //对内容进行处理
 
-    var content = file.contents.toString('utf-8'),
+    let content = file.contents.toString('utf-8'),
         filePath = file.path;
     if(typeof content === 'undefined'){
         content = Tool.getFileContent(filePath);
     }
 
-    var content = replaceCallback(filePath, content, opts);
+    content = replaceCallback(filePath, content, opts);
     return content;
 };
 
-var includer = function(options){
+let includer = function(options){
 
     return through2.obj(function(file, enc, next){
 
@@ -175,7 +182,7 @@ var includer = function(options){
         }
         if (file.isBuffer()) {
             try {
-                var content = getContent(file, options);
+                let content = getContent(file, options);
                 //console.log(content);
                 file.contents = new Buffer(content);
             }
