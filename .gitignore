@@ -2,3 +2,5 @@ node_modules
 npm-debug.log
 *_bak.*
 .idea
+.vscode
+package-lock.json

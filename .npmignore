@@ -1,6 +1,8 @@
 node_modules
 example
 .idea
+.vscode
 npm-debug.log
 test.js
 *_bak.*
+package-lock.json

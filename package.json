@@ -1,38 +1,44 @@
 {
-  "name": "gulp-tag-include",
-  "version": "1.1.6",
-  "description": "html页面之间的相互引用",
-  "main": "index.js",
-  "scripts": {
-    "test": ""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RodeyManager/gulp-tag-include.git"
-  },
-  "keywords": [
-    "gulp",
-    "html",
-    "include"
-  ],
-  "author": {
-    "name": "Rodey"
-  },
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RodeyManager/gulp-tag-include/issues"
-  },
-  "homepage": "https://github.com/RodeyManager/gulp-tag-include#readme",
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-watch": "^4.3.5",
-    "mocha": "^2.3.3",
-    "should": "^7.1.1"
-  },
-  "dependencies": {
-    "gulp-util": "^3.0.7",
-    "through2": "^2.0.0",
-    "uglify-js": "^2.6.1",
-    "uglifycss": "0.0.20"
-  }
+    "name": "gulp-tag-include",
+    "version": "1.1.7",
+    "description": "html页面之间的相互引用",
+    "main": "index.js",
+    "scripts": {
+        "test": ""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RodeyManager/gulp-tag-include.git"
+    },
+    "keywords": [
+        "gulp",
+        "html",
+        "include"
+    ],
+    "author": {
+        "name": "Rodey",
+        "email": "rodeyluo@gmail.com"
+    },
+    "file": [
+        "index.js",
+        "lib"
+    ],
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/RodeyManager/gulp-tag-include/issues"
+    },
+    "homepage": "https://github.com/RodeyManager/gulp-tag-include#readme",
+    "devDependencies": {
+        "gulp": "^3.9.1",
+        "gulp-clean": "^0.4.0",
+        "gulp-watch": "^5.0.0",
+        "mocha": "^5.0.4",
+        "should": "^13.2.1"
+    },
+    "dependencies": {
+        "plugin-error": "^1.0.1",
+        "through2": "^2.0.3",
+        "uglify-js": "^3.3.14",
+        "uglifycss": "0.0.28"
+    }
 }

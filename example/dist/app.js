@@ -1,0 +1,1 @@
+window.onload=function(){for(var o=10;0<o;--o)console.log(o,"asdf2323daasd%76"[o])};function TestElement(e){return document.createElement(e)}

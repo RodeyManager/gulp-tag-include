@@ -1,5 +1,5 @@
 <!-- 引入头部（标签上属性） -->
-<include src="assets/layout/header.html" title="gulp-html-includer" css="assets/css/a.css" charset="utf-8"></include>
+<include src="assets/layout/header.html" title="gulp-tag-include" css="assets/css/app.css" charset="utf-8"></include>
 
 <div class="app product-app details" id="app">
 
@@ -10,13 +10,13 @@
     </div>
 
     <include src="assets/css/a.css"></include>
+    <include src="assets/css/b.css"></include>
     <include src="assets/js/a.js"></include>
+    <include src="assets/js/b.js"></include>
 
 </div>
 
 <!-- 引入尾部（标签内属性） -->
 <include src="assets/layout/footer.html">
-    @view   = module/view/verify.js,
-    @module = module/verify,
-    @async  = async="true",
+    @view = module/view/verify.js, @module = module/verify, @async = async="true",
 </include>
